@@ -1,0 +1,93 @@
+{
+  "version": 8,
+  "name": "Empty Style",
+  "metadata": {"maputnik:renderer": "mlgljs"},
+  "sources": {
+    "current": {
+      "type": "geojson",
+      "data": "https://geoserver.develop.aurora-smartport.com/geoserver/port/wfs?service=WFS&version=1.0.0&request=GetFeature&typeName=port:current_crane&outputFormat=application/json"
+    }
+  },
+  "sprite": "",
+  "glyphs": "https://orangemug.github.io/font-glyphs/glyphs/{fontstack}/{range}.pbf",
+ "layers": [
+    {
+      "id": "cranes",
+      "type": "fill",
+      "source": "current",
+      "minzoom": 12,
+      "maxzoom": 24,
+      "layout": {"visibility": "visible"},
+      "paint": {
+        "fill-color": [
+          "match",
+          ["get", "status"],
+          0,
+          "#E27322",
+          1,
+          "#0F30AA",
+          2,
+          "#078735",
+          "#a6cee3"
+        ],
+        "fill-opacity": 0.4,
+        "fill-outline-color": [
+          "match",
+          ["get", "state"],
+          "connected",
+          "#2f7295",
+          "disconnected",
+          "#FFFFFF",
+          "#2f7295"
+        ],
+        "fill-translate-anchor": "map"
+      }
+    },
+    {
+      "id": "cranes labels",
+      "type": "symbol",
+      "source": "current",
+      "minzoom": 16,
+      "layout": {
+        "text-field": ["get", "code"],
+        "text-size": 12,
+        "text-font": ["Open Sans Regular"],
+        "text-anchor": "center",
+        "symbol-placement": "point",
+        "symbol-z-order": "viewport-y",
+        "text-pitch-alignment": "auto",
+        "text-rotation-alignment": "viewport-glyph",
+        "text-justify": "center",
+        "icon-rotation-alignment": "auto"
+      },
+      "paint": {
+        "text-color": "#000000",
+        "text-halo-color": "#FFFFFF",
+        "text-halo-width": 1.5,
+        "text-halo-blur": 0.5,
+        "text-opacity": 0.9
+      }
+    },
+    {
+      "id": "stroke",
+      "type": "line",
+      "source": "current",
+      "minzoom": 12,
+      "paint": {
+        "line-opacity": 0.7,
+        "line-color": [
+          "match",
+          ["get", "state"],
+          "connected",
+          "#2f7295",
+          "disconnected",
+          "#FFFFFF",
+          "#2f7295"
+        ],
+        "line-width": 1.5,
+        "line-blur": 0.5
+      }
+    }
+  ],
+  "id": "v1klems"
+}
