@@ -1,0 +1,331 @@
+{
+  "version": 8,
+  "name": "Empty Style",
+  "metadata": {},
+  "sources": {
+    "vessel_point": {
+      "type": "geojson",
+      "data": "https://geoserver.develop.aurora-smartport.com/geoserver/port/wfs?service=WFS&version=1.0.0&request=GetFeature&typeName=port:current_vessel_point&outputFormat=application/json"
+    },
+    "vessel_val": {
+      "type": "geojson",
+      "data": "https://geoserver.develop.aurora-smartport.com/geoserver/port/wfs?service=WFS&version=1.0.0&request=GetFeature&typeName=port:vessel_destination_valencia&outputFormat=application/json"
+    },
+    "vessel_pol": {
+      "type": "geojson",
+      "data": "https://geoserver.develop.aurora-smartport.com/geoserver/port/wfs?service=WFS&version=1.0.0&request=GetFeature&typeName=port:current_vessel_or&outputFormat=application/json"
+    },
+    "vessel_enhanced": {
+      "type": "geojson",
+      "data": "https://geoserver.develop.aurora-smartport.com/geoserver/port/wfs?service=WFS&version=1.0.0&request=GetFeature&typeName=port:vessels_on_berth_pol&outputFormat=application/json"
+    },
+    "swing_circle": {
+      "type": "geojson",
+      "data": "https://geoserver.develop.aurora-smartport.com/geoserver/port/wfs?service=WFS&version=1.0.0&request=GetFeature&typeName=port:swing_circle&outputFormat=application/json"
+    },
+    "swing_chain": {
+      "type": "geojson",
+      "data": "https://geoserver.develop.aurora-smartport.com/geoserver/port/wfs?service=WFS&version=1.0.0&request=GetFeature&typeName=port:swing_circle_chain&outputFormat=application/json"
+    },
+    "vessel_course_prediction": {
+      "type": "geojson",
+      "data": "https://geoserver.develop.aurora-smartport.com/geoserver/port/wfs?service=WFS&version=1.0.0&request=GetFeature&typeName=port:vessel-course-prediction&outputFormat=application/json"
+    },
+    "vessel_course_prediction_line": {
+      "type": "geojson",
+      "data": "https://geoserver.develop.aurora-smartport.com/geoserver/port/wfs?service=WFS&version=1.0.0&request=GetFeature&typeName=port:vessel_course_prediction_line&outputFormat=application/json"
+    }
+  },
+  "sprite": "https://raw.githubusercontent.com/jasaavedra/amura/refs/heads/main/sprite",
+  "glyphs": "https://orangemug.github.io/font-glyphs/glyphs/{fontstack}/{range}.pbf",
+  "layers": [
+    {
+      "id": "vessel_enhanced",
+      "type": "fill",
+      "source": "vessel_enhanced",
+      "minzoom": 12,
+      "paint": {
+        "fill-color": "#f84b66",
+        "fill-opacity": 1,
+        "fill-outline-color": "#4482a5"
+      }
+    },
+    {
+      "id": "vessel_enhanced_line",
+      "type": "line",
+      "source": "vessel_enhanced",
+      "minzoom": 12,
+      "paint": {"line-color": "#4482a5", "line-width": 1.4, "line-opacity": 1}
+    },
+    {
+      "id": "swing_circle",
+      "type": "fill",
+      "source": "swing_circle",
+      "minzoom": 12,
+      "paint": {"fill-color": "#808080", "fill-opacity": 0.2}
+    },
+    {
+      "id": "swing_circle_line",
+      "type": "line",
+      "source": "swing_circle",
+      "minzoom": 12,
+      "paint": {"line-color": "#F4F4F4", "line-width": 1.6, "line-opacity": 0.5}
+    },
+    {
+      "id": "swing_chain",
+      "type": "line",
+      "source": "swing_chain",
+      "minzoom": 12,
+      "paint": {"line-color": "#474747", "line-width": 2, "line-opacity": 0.9}
+    },
+    {
+      "id": "vessel_symbol",
+      "type": "symbol",
+      "source": "vessel_point",
+      "minzoom": 7,
+      "maxzoom": 12,
+      "filter": [
+        "all",
+        ["<", ["get", "course"], 360],
+        [
+          "!",
+          [
+            "in",
+            ["get", "vesselTypeId"],
+            ["literal", [0, 34, 36, 37, 50, 51, 52, 180]]
+          ]
+        ]
+      ],
+      "layout": {
+        "icon-size": 0.35,
+        "icon-allow-overlap": true,
+        "icon-rotate": ["get", "course"],
+        "visibility": "visible",
+        "icon-image": [
+          "match",
+          ["get", "statusPort"],
+          "ANCHORED",
+          "anchoring",
+          "BANNED",
+          "banned",
+          "BERTH",
+          "berth",
+          "BUNKER_OPS",
+          "bunker_ops",
+          "CARGO_OPS",
+          "cargo_ops",
+          "DETAINED",
+          "detained",
+          "DRIFTING_OPS",
+          "drifting_ops",
+          "OUT_OF_RANGE",
+          "out_of_range",
+          "PILOT_ON_BOARD",
+          "pilot_on_board",
+          "READY_TO_SAIL",
+          "ready_to_sail",
+          "READY_TO_SAIL_AUTORIZED",
+          "ready_to_sail_autorized",
+          "READY_TO_SAIL_NO_AUTORIZED",
+          "ready_to_sail_no_autorized",
+          "TERMINAL_READY",
+          "terminal_ready",
+          "TERMINAL_READY_AUTORIZED",
+          "terminal_ready_autorized",
+          "TERMINAL_READY_NO_AUTORIZED",
+          "terminal_ready_no_autorized",
+          "TRANSIT",
+          "transit",
+          "WATER_OPS",
+          "water_ops",
+          "transit"
+        ]
+      }
+    },
+    {
+      "id": "vessel_val",
+      "type": "symbol",
+      "source": "vessel_val",
+      "minzoom": 7,
+      "maxzoom": 12,
+      "layout": {
+        "icon-size": 0.35,
+        "icon-allow-overlap": true,
+        "icon-rotate": ["get", "course"],
+        "visibility": "visible",
+        "icon-image": "cargo_ops"
+      }
+    },
+    {
+      "id": "vessel_pol",
+      "type": "fill",
+      "source": "vessel_pol",
+      "minzoom": 12,
+      "filter": [
+        "all",
+        ["<", ["get", "heading"], 360],
+        ["!=", ["get", "vesselTypeId"], 0],
+        ["!=", ["get", "vesselTypeId"], 36],
+        ["!=", ["get", "vesselTypeId"], 37]
+      ],
+      "paint": {
+        "fill-color": [
+          "match",
+          ["get", "statusPort"],
+          "BERTH",
+          "#f84b66",
+          "ANCHORED",
+          "#c8d1ec",
+          "BANNED",
+          "#696f70",
+          "BUNKER_OPS",
+          "#d08d37",
+          "CARGO_OPS",
+          "#ad0505",
+          "DETAINED",
+          "#696f70",
+          "DRIFTING_OPS",
+          "#d0ff33",
+          "OUT_OF_RANGE",
+          "#d2eed6",
+          "PILOT_ON_BOARD",
+          "#f1ef79",
+          "READY_TO_SAIL",
+          "#d08787",
+          "TERMINAL_READY",
+          "#ffd3d3",
+          "TRANSIT",
+          "#6db965",
+          "WATER_OPS",
+          "#01ced0",
+          "#ffffff"
+        ],
+        "fill-opacity": ["match", ["get", "statusPort"], "BERTH", 0.4, 1],
+        "fill-outline-color": "transparent"
+      }
+    },
+    {
+      "id": "stroke_vessel_others",
+      "type": "line",
+      "source": "vessel_pol",
+      "minzoom": 12,
+      "filter": [
+        "all",
+        ["!=", ["get", "statusPort"], "BERTH"],
+        ["<", ["get", "heading"], 360],
+        ["!=", ["get", "vesselTypeId"], 0],
+        ["!=", ["get", "vesselTypeId"], 36],
+        ["!=", ["get", "vesselTypeId"], 37]
+      ],
+      "layout": {"visibility": "visible"},
+      "paint": {"line-color": "#4482a5", "line-width": 1.2}
+    },
+    {
+      "id": "stroke_vessel_berth",
+      "type": "line",
+      "source": "vessel_pol",
+      "minzoom": 12,
+      "filter": [
+        "all",
+        ["==", ["get", "statusPort"], "BERTH"],
+        ["<", ["get", "heading"], 360],
+        ["!=", ["get", "vesselTypeId"], 0],
+        ["!=", ["get", "vesselTypeId"], 36],
+        ["!=", ["get", "vesselTypeId"], 37]
+      ],
+      "layout": {"visibility": "visible"},
+      "paint": {
+        "line-color": "#4482a5",
+        "line-width": 1.2,
+        "line-dasharray": [3, 3]
+      }
+    },
+    {
+      "id": "vessel_course_prediction",
+      "type": "fill",
+      "source": "vessel_course_prediction",
+      "minzoom": 12,
+      "paint": {"fill-color": "#000000", "fill-opacity": 0.2}
+    },
+    {
+      "id": "vessel_course_prediction_stroke",
+      "type": "line",
+      "source": "vessel_course_prediction",
+      "minzoom": 12,
+      "paint": {
+        "line-color": "#6b6b6c",
+        "line-width": 1.2,
+        "line-dasharray": [3, 3]
+      }
+    },
+    {
+      "id": "vessel_course_prediction_line",
+      "type": "line",
+      "source": "vessel_course_prediction_line",
+      "paint": {"line-color": "#6b6b6c", "line-width": 2}
+    },
+    {
+      "id": "vts_receptor",
+      "type": "circle",
+      "source": "vessel_point",
+      "minzoom": 0,
+      "maxzoom": 24,
+      "filter": [
+        "all",
+        ["<", ["get", "heading"], 360],
+        ["==", ["get", "sensorType"], "VTS"],
+        ["!=", ["get", "vesselTypeId"], 0],
+        ["!=", ["get", "vesselTypeId"], 36],
+        ["!=", ["get", "vesselTypeId"], 37]
+      ],
+      "layout": {"visibility": "visible"},
+      "paint": {
+        "circle-radius": 3,
+        "circle-color": "#000000",
+        "circle-opacity": 0,
+        "circle-stroke-color": "#4482a5",
+        "circle-stroke-opacity": 1,
+        "circle-stroke-width": 1.5
+      }
+    },
+    {
+      "id": "vts_ais_receptor-copy",
+      "type": "symbol",
+      "source": "vessel_point",
+      "filter": [
+        "all",
+        ["<", ["get", "heading"], 360],
+        ["==", ["get", "sensorType"], "VTS_AIS"],
+        ["!=", ["get", "vesselTypeId"], 0],
+        ["!=", ["get", "vesselTypeId"], 36],
+        ["!=", ["get", "vesselTypeId"], 37]
+      ],
+      "layout": {
+        "icon-image": "vtsais",
+        "icon-size": 0.5,
+        "icon-rotate": ["get", "heading"],
+        "icon-allow-overlap": true
+      }
+    },
+    {
+      "id": "ais_receptor",
+      "type": "symbol",
+      "source": "vessel_point",
+      "filter": [
+        "all",
+        ["<", ["get", "heading"], 360],
+        ["==", ["get", "sensorType"], "AIS"],
+        ["!=", ["get", "vesselTypeId"], 0],
+        ["!=", ["get", "vesselTypeId"], 36],
+        ["!=", ["get", "vesselTypeId"], 37]
+      ],
+      "layout": {
+        "icon-image": "heading_triangle",
+        "icon-size": 0.5,
+        "icon-rotate": ["get", "heading"],
+        "icon-allow-overlap": true
+      }
+    }
+  ],
+  "id": "arg0x8q"
+}
