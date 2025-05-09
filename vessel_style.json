@@ -1,7 +1,7 @@
 {
   "version": 8,
   "name": "Empty Style",
-  "metadata": {},
+  "metadata": {"maputnik:renderer": "mlgljs"},
   "sources": {
     "vessel_point": {
       "type": "geojson",
@@ -34,9 +34,13 @@
     "vessel_course_prediction_line": {
       "type": "geojson",
       "data": "https://geoserver.develop.aurora-smartport.com/geoserver/port/wfs?service=WFS&version=1.0.0&request=GetFeature&typeName=port:vessel_course_prediction_line&outputFormat=application/json"
+    },
+    "vessel_course_prediction_point": {
+      "type": "geojson",
+      "data": "https://geoserver.develop.aurora-smartport.com/geoserver/port/wfs?service=WFS&version=1.0.0&request=GetFeature&typeName=port:vessel_course_prediction_point&outputFormat=application/json"
     }
   },
-  "sprite": "https://raw.githubusercontent.com/jasaavedra/amura/refs/heads/main/sprite",
+  "sprite": "https://jasaavedra.github.io/amura/sprite",
   "glyphs": "https://orangemug.github.io/font-glyphs/glyphs/{fontstack}/{range}.pbf",
   "layers": [
     {
@@ -262,14 +266,73 @@
       "id": "vessel_course_prediction_line",
       "type": "line",
       "source": "vessel_course_prediction_line",
-      "paint": {"line-color": "#6b6b6c", "line-width": 2}
+      "minzoom": 12,
+      "paint": {"line-color": "#6b6b6c", "line-width": 1.8}
     },
     {
-      "id": "vts_receptor",
+      "id": "vessel_course_prediction_point",
+      "type": "circle",
+      "source": "vessel_course_prediction_point",
+      "minzoom": 12,
+      "paint": {
+        "circle-color": "#000000",
+        "circle-stroke-color": "#000000",
+        "circle-radius": 3
+      }
+    },
+    {
+      "id": "vts_receptor_z3",
       "type": "circle",
       "source": "vessel_point",
-      "minzoom": 0,
-      "maxzoom": 24,
+      "minzoom": 16,
+      "filter": [
+        "all",
+        ["<", ["get", "heading"], 360],
+        ["==", ["get", "sensorType"], "VTS"],
+        ["!=", ["get", "vesselTypeId"], 0],
+        ["!=", ["get", "vesselTypeId"], 36],
+        ["!=", ["get", "vesselTypeId"], 37]
+      ],
+      "layout": {"visibility": "visible"},
+      "paint": {
+        "circle-radius": 6,
+        "circle-color": "#000000",
+        "circle-opacity": 0,
+        "circle-stroke-color": "#4482a5",
+        "circle-stroke-opacity": 1,
+        "circle-stroke-width": 1.5
+      }
+    },
+    {
+      "id": "vts_receptor_z2",
+      "type": "circle",
+      "source": "vessel_point",
+      "minzoom": 15,
+      "maxzoom": 16,
+      "filter": [
+        "all",
+        ["<", ["get", "heading"], 360],
+        ["==", ["get", "sensorType"], "VTS"],
+        ["!=", ["get", "vesselTypeId"], 0],
+        ["!=", ["get", "vesselTypeId"], 36],
+        ["!=", ["get", "vesselTypeId"], 37]
+      ],
+      "layout": {"visibility": "visible"},
+      "paint": {
+        "circle-radius": 4,
+        "circle-color": "#000000",
+        "circle-opacity": 0,
+        "circle-stroke-color": "#4482a5",
+        "circle-stroke-opacity": 1,
+        "circle-stroke-width": 1.5
+      }
+    },
+    {
+      "id": "vts_receptor_z1",
+      "type": "circle",
+      "source": "vessel_point",
+      "minzoom": 14,
+      "maxzoom": 15,
       "filter": [
         "all",
         ["<", ["get", "heading"], 360],
@@ -289,9 +352,50 @@
       }
     },
     {
-      "id": "vts_ais_receptor-copy",
+      "id": "vts_ais_receptor-z2",
       "type": "symbol",
       "source": "vessel_point",
+      "minzoom": 14,
+      "maxzoom": 15,
+      "filter": [
+        "all",
+        ["<", ["get", "heading"], 360],
+        ["==", ["get", "sensorType"], "VTS_AIS"],
+        ["!=", ["get", "vesselTypeId"], 0],
+        ["!=", ["get", "vesselTypeId"], 36],
+        ["!=", ["get", "vesselTypeId"], 37]
+      ],
+      "layout": {
+        "icon-image": "vtsais",
+        "icon-size": 0.4,
+        "icon-rotate": ["get", "heading"]
+      }
+    },
+    {
+      "id": "vts_ais_receptor_z3",
+      "type": "symbol",
+      "source": "vessel_point",
+      "minzoom": 16,
+      "filter": [
+        "all",
+        ["<", ["get", "heading"], 360],
+        ["==", ["get", "sensorType"], "VTS_AIS"],
+        ["!=", ["get", "vesselTypeId"], 0],
+        ["!=", ["get", "vesselTypeId"], 36],
+        ["!=", ["get", "vesselTypeId"], 37]
+      ],
+      "layout": {
+        "icon-image": "vtsais",
+        "icon-size": 0.7,
+        "icon-rotate": ["get", "heading"]
+      }
+    },
+    {
+      "id": "vts_ais_receptor_z1",
+      "type": "symbol",
+      "source": "vessel_point",
+      "minzoom": 15,
+      "maxzoom": 16,
       "filter": [
         "all",
         ["<", ["get", "heading"], 360],
@@ -303,14 +407,15 @@
       "layout": {
         "icon-image": "vtsais",
         "icon-size": 0.5,
-        "icon-rotate": ["get", "heading"],
-        "icon-allow-overlap": true
+        "icon-rotate": ["get", "heading"]
       }
     },
     {
-      "id": "ais_receptor",
+      "id": "ais_receptor-z2",
       "type": "symbol",
       "source": "vessel_point",
+      "minzoom": 15,
+      "maxzoom": 16,
       "filter": [
         "all",
         ["<", ["get", "heading"], 360],
@@ -321,9 +426,50 @@
       ],
       "layout": {
         "icon-image": "heading_triangle",
-        "icon-size": 0.5,
+        "icon-size": 0.4,
         "icon-rotate": ["get", "heading"],
-        "icon-allow-overlap": true
+        "visibility": "visible"
+      }
+    },
+    {
+      "id": "ais_receptor-z1",
+      "type": "symbol",
+      "source": "vessel_point",
+      "minzoom": 14,
+      "maxzoom": 15,
+      "filter": [
+        "all",
+        ["<", ["get", "heading"], 360],
+        ["==", ["get", "sensorType"], "AIS"],
+        ["!=", ["get", "vesselTypeId"], 0],
+        ["!=", ["get", "vesselTypeId"], 36],
+        ["!=", ["get", "vesselTypeId"], 37]
+      ],
+      "layout": {
+        "icon-image": "heading_triangle",
+        "icon-size": 0.3,
+        "icon-rotate": ["get", "heading"],
+        "visibility": "visible"
+      }
+    },
+    {
+      "id": "ais_receptor_z3",
+      "type": "symbol",
+      "source": "vessel_point",
+      "minzoom": 16,
+      "filter": [
+        "all",
+        ["<", ["get", "heading"], 360],
+        ["==", ["get", "sensorType"], "AIS"],
+        ["!=", ["get", "vesselTypeId"], 0],
+        ["!=", ["get", "vesselTypeId"], 36],
+        ["!=", ["get", "vesselTypeId"], 37]
+      ],
+      "layout": {
+        "icon-image": "heading_triangle",
+        "icon-size": 0.7,
+        "icon-rotate": ["get", "heading"],
+        "visibility": "visible"
       }
     }
   ],
