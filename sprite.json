@@ -131,5 +131,12 @@
     "x": 432,
     "y": 0,
     "pixelRatio": 1
+  },
+  "arrow_head_up": {
+    "width": 24,
+    "height": 54,
+    "x": 456,
+    "y": 0,
+    "pixelRatio": 1
   }
 }
