@@ -38,6 +38,26 @@
     "vessel_course_prediction_point": {
       "type": "geojson",
       "data": "https://geoserver.develop.aurora-smartport.com/geoserver/port/wfs?service=WFS&version=1.0.0&request=GetFeature&typeName=port:vessel_course_prediction_point&outputFormat=application/json"
+    },
+    "course_arrow": {
+      "type": "geojson",
+      "data": "https://geoserver.develop.aurora-smartport.com/geoserver/port/wfs?service=WFS&version=1.0.0&request=GetFeature&typeName=port:course_arrow&outputFormat=application/json"
+    },
+    "course_arrow_point": {
+      "type": "geojson",
+      "data": "https://geoserver.develop.aurora-smartport.com/geoserver/port/wfs?service=WFS&version=1.0.0&request=GetFeature&typeName=port:course_arrow_point&outputFormat=application/json"
+    },
+    "vessel_cluster_1": {
+      "type": "geojson",
+      "data": "https://geoserver.develop.aurora-smartport.com/geoserver/port/wfs?service=WFS&version=1.0.0&request=GetFeature&typeName=port:vessel_cluster_1&outputFormat=application/json"
+    },
+    "vessel_cluster_2": {
+      "type": "geojson",
+      "data": "https://geoserver.develop.aurora-smartport.com/geoserver/port/wfs?service=WFS&version=1.0.0&request=GetFeature&typeName=port:vessel_cluster_2&outputFormat=application/json"
+    },
+    "vessel_cluster_3": {
+      "type": "geojson",
+      "data": "https://geoserver.develop.aurora-smartport.com/geoserver/port/wfs?service=WFS&version=1.0.0&request=GetFeature&typeName=port:vessel_cluster_3&outputFormat=application/json"
     }
   },
   "sprite": "https://jasaavedra.github.io/amura/sprite",
@@ -86,7 +106,7 @@
       "id": "vessel_symbol",
       "type": "symbol",
       "source": "vessel_point",
-      "minzoom": 7,
+      "minzoom": 8.5,
       "maxzoom": 12,
       "filter": [
         "all",
@@ -470,6 +490,180 @@
         "icon-size": 0.7,
         "icon-rotate": ["get", "heading"],
         "visibility": "visible"
+      }
+    },
+    {
+      "id": "course_arrow",
+      "type": "line",
+      "source": "course_arrow",
+      "minzoom": 12,
+      "paint": {"line-color": "#4482a5"}
+    },
+    {
+      "id": "course_arrow_point-copy",
+      "type": "symbol",
+      "source": "course_arrow_point",
+      "minzoom": 12,
+      "maxzoom": 13,
+      "layout": {
+        "symbol-placement": "point",
+        "icon-image": "arrow_head_up",
+        "icon-size": 0.4,
+        "icon-rotate": ["get", "course"],
+        "icon-allow-overlap": true
+      }
+    },
+    {
+      "id": "course_arrow_point",
+      "type": "symbol",
+      "source": "course_arrow_point",
+      "minzoom": 13,
+      "layout": {
+        "symbol-placement": "point",
+        "icon-image": "arrow_head_up",
+        "icon-size": 0.5,
+        "icon-rotate": ["get", "course"],
+        "icon-allow-overlap": true
+      }
+    },
+    {
+      "id": "cluster_core_1",
+      "type": "circle",
+      "source": "vessel_cluster_1",
+      "minzoom": 7,
+      "maxzoom": 8.5,
+      "paint": {
+        "circle-color": "#0080ff",
+        "circle-opacity": 0.8,
+        "circle-radius": ["*", ["sqrt", ["get", "num_points"]], 3],
+        "circle-stroke-color": "#ffffff",
+        "circle-stroke-width": 0
+      }
+    },
+    {
+      "id": "cluster_halo_1",
+      "type": "circle",
+      "source": "vessel_cluster_1",
+      "minzoom": 7,
+      "maxzoom": 8.5,
+      "paint": {
+        "circle-color": "#0080ff",
+        "circle-opacity": 0.3,
+        "circle-radius": ["*", ["sqrt", ["get", "num_points"]], 6]
+      }
+    },
+    {
+      "id": "cluster_label_1",
+      "type": "symbol",
+      "source": "vessel_cluster_1",
+      "minzoom": 7,
+      "maxzoom": 8.5,
+      "layout": {
+        "text-field": ["to-string", ["get", "num_points"]],
+        "text-font": ["Open Sans Bold"],
+        "text-size": 14,
+        "text-anchor": "center",
+        "text-offset": [-0.3, 0]
+      },
+      "paint": {
+        "text-color": "#000000",
+        "text-halo-color": "#ffffff",
+        "text-halo-width": 1.5,
+        "text-halo-blur": 0
+      }
+    },
+    {
+      "id": "cluster_core_2",
+      "type": "circle",
+      "source": "vessel_cluster_2",
+      "minzoom": 5.5,
+      "maxzoom": 7,
+      "layout": {"visibility": "visible"},
+      "paint": {
+        "circle-color": "#0080ff",
+        "circle-opacity": 0.8,
+        "circle-radius": ["*", ["sqrt", ["get", "num_points"]], 2],
+        "circle-stroke-color": "#ffffff",
+        "circle-stroke-width": 0
+      }
+    },
+    {
+      "id": "cluster_halo_2",
+      "type": "circle",
+      "source": "vessel_cluster_2",
+      "minzoom": 5.5,
+      "maxzoom": 7,
+      "paint": {
+        "circle-color": "#0080ff",
+        "circle-opacity": 0.3,
+        "circle-radius": ["*", ["sqrt", ["get", "num_points"]], 4]
+      }
+    },
+    {
+      "id": "cluster_label_2",
+      "type": "symbol",
+      "source": "vessel_cluster_2",
+      "minzoom": 5.5,
+      "maxzoom": 7,
+      "layout": {
+        "text-field": ["to-string", ["get", "num_points"]],
+        "text-font": ["Open Sans Bold"],
+        "text-size": 14,
+        "text-anchor": "center",
+        "text-offset": [-0.3, 0]
+      },
+      "paint": {
+        "text-color": "#000000",
+        "text-halo-color": "#ffffff",
+        "text-halo-width": 1.5,
+        "text-halo-blur": 0
+      }
+    },
+    {
+      "id": "cluster_core_3",
+      "type": "circle",
+      "source": "vessel_cluster_3",
+      "minzoom": 0,
+      "maxzoom": 5.5,
+      "layout": {"visibility": "visible"},
+      "paint": {
+        "circle-color": "#0080ff",
+        "circle-opacity": 0.8,
+        "circle-radius": ["*", ["sqrt", ["get", "num_points"]], 1],
+        "circle-stroke-color": "#ffffff",
+        "circle-stroke-width": 0
+      }
+    },
+    {
+      "id": "cluster_halo_3",
+      "type": "circle",
+      "source": "vessel_cluster_3",
+      "minzoom": 0,
+      "maxzoom": 5.5,
+      "paint": {
+        "circle-color": "#0080ff",
+        "circle-opacity": 0.3,
+        "circle-radius": ["*", ["sqrt", ["get", "num_points"]], 2]
+      }
+    },
+    {
+      "id": "cluster_label_3",
+      "type": "symbol",
+      "source": "vessel_cluster_3",
+      "minzoom": 0,
+      "maxzoom": 5.5,
+      "layout": {
+        "text-field": ["to-string", ["get", "num_points"]],
+        "text-font": ["Open Sans Bold"],
+        "text-size": 14,
+        "text-anchor": "center",
+        "text-offset": [-0.3, 0]
+      },
+      "paint": {
+        "text-color": "#000000",
+        "text-halo-color": "#ffffff",
+        "text-halo-width": 1.5,
+        "text-halo-blur": 0
       }
     }
   ],
